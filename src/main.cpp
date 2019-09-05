@@ -57,8 +57,42 @@ int main(int argc, const char **argv)
     // Build Model.
     RouteModel model{osm_data};
 
+
+    std::cout << "Constructing route planner object..." << std::endl;
     // Perform search and render results.
-    RoutePlanner route_planner{model, 10, 10, 90, 90};
+
+    float start_x, start_y, end_x, end_y;
+
+    start_x = start_y = end_x = end_y = std::numeric_limits<float>::max();
+    // test
+    
+  	while(!(start_x >= 0.f && start_x <= 100.f))
+    {
+    	std::cout << "Enter starting X value: ";
+    	std::cin >> start_x;
+    }
+  	while(!(start_y >= 0.f && start_y <= 100.f))
+    {
+    	std::cout << "Enter starting Y value: ";
+    	std::cin >> start_y;
+    }
+  	
+  	while(!(end_x >= 0.f && end_x <= 100.f))
+    {
+    	std::cout << "Enter ending X value: ";
+    	std::cin >> end_x;
+    }
+  	while(!(end_y >= 0.f && end_y <= 100.f))
+    {
+    	std::cout << "Enter ending Y value: ";
+    	std::cin >> end_y;
+    }
+  	
+
+    RoutePlanner route_planner{model, start_x, start_y, end_x, end_y};
+    std::cout << "Running search..." << std::endl;
+    route_planner.AStarSearch();
+    std::cout << "Length of path: " << route_planner.GetDistance() << " meters." << std::endl;
     Render render{model};
 
     auto display = io2d::output_surface{400, 400, io2d::format::argb32, io2d::scaling::none, io2d::refresh_style::fixed, 30};
